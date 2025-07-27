@@ -114,6 +114,7 @@ class PagingAdapter<T : Any> internal constructor(private val delegate: AdapterD
      * @return 转换后的 `AdapterItem.ViewHolder` 实例。
      */
     private fun AdapterItem.ViewHolder<*, out T?>.requiredData(): AdapterItem.ViewHolder<*, out T> {
-        @Suppress("UNCHECKED_CAST") return this as AdapterItem.ViewHolder<*, out T>
+        @Suppress("UNCHECKED_CAST")
+        return this as AdapterItem.ViewHolder<*, out T>
     }
 }

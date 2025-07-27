@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package top.cyclops.adapter
 
 import android.content.Context

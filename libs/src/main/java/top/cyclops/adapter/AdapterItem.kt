@@ -59,9 +59,13 @@ class AdapterItem {
          */
         fun build(): Delegate<VB, T> {
             val binder = Binder(
-                setup = setup, beforeBind = beforeBind, bind = bind ?: {
+                setup = setup,
+                beforeBind = beforeBind,
+                bind = bind ?: {
                     payloads.forEach { payload -> payload.bind.invoke(this) }
-                }, payloadBinds = payloads.map { it.bind }, afterBind = afterBind
+                },
+                payloadBinds = payloads.map { it.bind },
+                afterBind = afterBind
             )
             return Delegate(
                 type = type,
@@ -184,7 +188,8 @@ class AdapterItem {
          * @param payloads 部分更新信息。
          */
         internal fun bindUnSafe(data: Any?, payloads: AdapterPayloadChange) {
-            @Suppress("UNCHECKED_CAST") bind(data as T, payloads)
+            @Suppress("UNCHECKED_CAST")
+            bind(data as T, payloads)
         }
 
         /**

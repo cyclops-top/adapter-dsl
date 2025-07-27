@@ -85,7 +85,9 @@ interface AdapterItemScope<VB : ViewBinding, T : Any> {
          * @param builder `AdapterItem.Builder` 实例，用于构建列表项的配置。
          * @return 一个新的 `AdapterItemScope` 实例。
          */
-        internal operator fun <VB : ViewBinding, T : Any> invoke(builder: AdapterItem.Builder<VB, T>): AdapterItemScope<VB, T> {
+        internal operator fun <VB : ViewBinding, T : Any> invoke(
+            builder: AdapterItem.Builder<VB, T>
+        ): AdapterItemScope<VB, T> {
             return DefaultAdapterItemScope(builder)
         }
     }

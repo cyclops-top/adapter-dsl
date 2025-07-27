@@ -12,6 +12,16 @@ internal class AdapterDelegate<T : Any>(
 ) {
     private lateinit var layoutInflater: LayoutInflater
     val lookup = SpanLookup()
+
+    /**
+     * 创建 ViewHolder。
+     *
+     * 根据视图类型创建适当的 ViewHolder 实例。
+     *
+     * @param parent ViewHolder 的父视图组。
+     * @param viewType 视图类型，用于区分不同类型的列表项。
+     * @return 返回创建的 ViewHolder 实例。
+     */
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterItem.ViewHolder<*, out T?> {
         if (!this::layoutInflater.isInitialized) {
             layoutInflater = LayoutInflater.from(parent.context)
@@ -23,11 +33,27 @@ internal class AdapterDelegate<T : Any>(
         }
     }
 
-
+    /**
+     * 绑定数据到 ViewHolder。
+     *
+     * 将数据项绑定到指定的 ViewHolder。
+     *
+     * @param holder 要绑定数据的 ViewHolder。
+     * @param data 要绑定的数据项。
+     */
     fun onBindViewHolder(holder: AdapterItem.ViewHolder<*, out T>, data: T?) {
         holder.bindUnSafe(data, AdapterPayloadChange.All)
     }
 
+    /**
+     * 绑定数据到 ViewHolder，支持部分更新。
+     *
+     * 将数据项绑定到指定的 ViewHolder，并支持通过 payloads 进行部分更新。
+     *
+     * @param holder 要绑定数据的 ViewHolder。
+     * @param data 要绑定的数据项。
+     * @param payloads 用于部分更新的数据负载。
+     */
     fun onBindViewHolder(
         holder: AdapterItem.ViewHolder<*, out T>,
         data: T?,
@@ -45,7 +71,6 @@ internal class AdapterDelegate<T : Any>(
             }
         }
     }
-
 
     fun getItemViewType(data: T?): Int {
         return if (data != null) {
@@ -87,7 +112,7 @@ internal class AdapterDelegate<T : Any>(
         }
     }
 
-    class Builder<T : Any> {
+    internal class Builder<T : Any> {
         private val items = ArrayList<AdapterItem.Delegate<*, out T>>()
         var placeHolder: AdapterItem.PlaceHolder<*, T>? = null
         fun add(delegate: AdapterItem.Delegate<*, out T>) = apply {

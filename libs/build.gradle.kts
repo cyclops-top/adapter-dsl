@@ -1,15 +1,17 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.vanniktech.maven.publish)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.detekt)
 }
 
 android {
     namespace = "top.cyclops.adapter"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -49,7 +51,22 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+    config.setFrom("$rootDir/detekt-config.yml")
+}
 
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        sarif.required.set(
+            true
+        )
+        md.required.set(true) // simple Markdown format
+    }
+}
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
@@ -58,7 +75,9 @@ mavenPublishing {
     pom {
         name = "adapter-dsl"
         description =
-            "AdapterDsl uses a DSL to configure `RecyclerView` adapters, making the code more readable and maintainable. You can define item types, view bindings, and data payloads in a single, coherent block."
+            "AdapterDsl uses a DSL to configure `RecyclerView` adapters, making the code more " +
+            "readable and maintainable. You can define item types, view bindings, " +
+            "and data payloads in a single, coherent block."
         url = "https://github.com/cyclops-top/adapter-dsl"
         licenses {
             license {

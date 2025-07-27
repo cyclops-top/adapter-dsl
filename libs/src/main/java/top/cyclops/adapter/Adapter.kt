@@ -39,6 +39,15 @@ class Adapter<T : Any> internal constructor(private val delegate: AdapterDelegat
         }
     }
 
+    /**
+     * 创建新的 ViewHolder。
+     *
+     * 该方法用于创建适配器的 ViewHolder 实例。
+     *
+     * @param parent ViewHolder 的父视图组。
+     * @param viewType 视图类型，用于区分不同类型的列表项。
+     * @return 返回创建的 ViewHolder 实例。
+     */
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -46,6 +55,14 @@ class Adapter<T : Any> internal constructor(private val delegate: AdapterDelegat
         return delegate.onCreateViewHolder(parent, viewType)
     }
 
+    /**
+     * 绑定数据到 ViewHolder。
+     *
+     * 该方法用于将数据项绑定到指定位置的 ViewHolder。
+     *
+     * @param holder 要绑定数据的 ViewHolder。
+     * @param position 数据项在列表中的位置。
+     */
     override fun onBindViewHolder(
         holder: AdapterItem.ViewHolder<*, out T?>,
         position: Int,
@@ -54,6 +71,16 @@ class Adapter<T : Any> internal constructor(private val delegate: AdapterDelegat
         delegate.onBindViewHolder(holder.requiredData(), item)
     }
 
+
+    /**
+     * 绑定数据到 ViewHolder，支持部分更新。
+     *
+     * 该方法用于将数据项绑定到指定位置的 ViewHolder，并支持通过 payloads 进行部分更新。
+     *
+     * @param holder 要绑定数据的 ViewHolder。
+     * @param position 数据项在列表中的位置。
+     * @param payloads 用于部分更新的数据负载。
+     */
     override fun onBindViewHolder(
         holder: AdapterItem.ViewHolder<*, out T?>,
         position: Int,
@@ -67,6 +94,14 @@ class Adapter<T : Any> internal constructor(private val delegate: AdapterDelegat
         return data.size
     }
 
+    /**
+     * 获取指定位置的数据项的视图类型。
+     *
+     * 该方法用于返回数据项在指定位置的视图类型，以便适配器根据视图类型创建合适的 ViewHolder。
+     *
+     * @param position 数据项在列表中的位置。
+     * @return 返回数据项的视图类型。
+     */
     override fun getItemViewType(position: Int): Int {
         return delegate.getItemViewType(data[position])
     }
